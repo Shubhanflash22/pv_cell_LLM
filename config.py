@@ -27,6 +27,12 @@ class WorkflowConfig:
     fe_num_evs: int = 0           # Number of EVs the household owns
     fe_pv_budget: float = 10000.0 # Budget for PV installation (USD)
 
+    # ── Benchmark / scenario-specific (optional) ───────────────
+    fe_num_daytime_occupants: Optional[int] = None
+    fe_roof_length_m: Optional[float] = None
+    fe_roof_breadth_m: Optional[float] = None
+    fe_panel_brand: Optional[str] = None
+
     # ── RAG ───────────────────────────────────────────────────
     rag_path: Optional[str] = None      # knowledge text file for RAG
 
@@ -82,6 +88,7 @@ class WorkflowConfig:
         llm  = d.get("llm", {})
         rag  = d.get("rag", {})
         out  = d.get("output", {})
+        bench = d.get("benchmark", {}) or d.get("scenario", {})
 
         return cls(
             fe_latitude=fe.get("latitude", 32.7157),
@@ -107,6 +114,10 @@ class WorkflowConfig:
             top_k=rag.get("top_k", 3),
             output_path=out.get("path", "output.txt"),
             feature_output_path=out.get("feature_path", "outputs/feature_outputs.txt"),
+            fe_num_daytime_occupants=bench.get("num_daytime_occupants"),
+            fe_roof_length_m=bench.get("roof_length_m"),
+            fe_roof_breadth_m=bench.get("roof_breadth_m"),
+            fe_panel_brand=bench.get("panel_brand"),
             system_prompt=d.get(
                 "system_prompt",
                 "You are a helpful data analyst. "

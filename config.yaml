@@ -43,11 +43,16 @@ prompt: >
      installation. Determine the maximum number of panels
      affordable within this budget and whether it is sufficient
      to meet their energy needs.
-  5. Determine the optimal number of PV panels for this household
+  5. Additional context: {num_daytime_occupants} occupants are
+     typically home during daytime hours. Roof area: {roof_area_m2}
+     (length {roof_length_m} m × breadth {roof_breadth_m} m).
+     Consider this physical constraint when recommending panel count.
+     Panel brand preference: {panel_brand}.
+  6. Determine the optimal number of PV panels for this household
      and justify your recommendation with specific numbers from
      the summary.
-  6. Estimate the cost savings and payback period.
-  7. Comment on risks (sunlight variability, consumption growth,
+  7. Estimate the cost savings and payback period.
+  8. Comment on risks (sunlight variability, consumption growth,
      grid dependency) and whether battery storage is advisable.
 
   Output: A clear recommendation with the number of PV panels

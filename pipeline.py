@@ -90,9 +90,25 @@ class Pipeline:
 
         # ── 3. Build final prompt ─────────────────────────────
         logger.info("Building final prompt …")
+        roof_area_m2 = (
+            cfg.fe_roof_length_m * cfg.fe_roof_breadth_m
+            if (cfg.fe_roof_length_m is not None and cfg.fe_roof_breadth_m is not None)
+            else None
+        )
         resolved_prompt = cfg.prompt.format(
             num_evs=cfg.fe_num_evs,
             pv_budget=f"{cfg.fe_pv_budget:,.0f}",
+            num_daytime_occupants=(
+                cfg.fe_num_daytime_occupants
+                if cfg.fe_num_daytime_occupants is not None
+                else "Not specified"
+            ),
+            roof_area_m2=f"{roof_area_m2:.1f}" if roof_area_m2 is not None else "Not specified",
+            roof_length_m=cfg.fe_roof_length_m if cfg.fe_roof_length_m is not None else "—",
+            roof_breadth_m=cfg.fe_roof_breadth_m if cfg.fe_roof_breadth_m is not None else "—",
+            panel_brand=(
+                cfg.fe_panel_brand.strip() if cfg.fe_panel_brand else "No preference"
+            ),
         )
         builder = PromptBuilder(system_prompt=cfg.system_prompt)
         final_prompt = builder.build(
